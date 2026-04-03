@@ -831,8 +831,16 @@ textarea {
         gap: 40px;
     }
 
+    .about-text {
+        text-align: center;
+    }
+
     .about-features {
         grid-template-columns: 1fr;
+    }
+
+    .about-features div {
+        justify-content: center;
     }
 
     .rooms-grid {
