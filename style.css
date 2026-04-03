@@ -749,6 +749,12 @@ textarea {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .about-grid, .rooms-grid, .contact-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
     .rooms-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -756,24 +762,26 @@ textarea {
 
 @media (max-width: 768px) {
     .nav-links {
-        display: none;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: var(--white);
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: #1a1a1a;
         flex-direction: column;
-        gap: 0;
-        padding: 20px 0;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        justify-content: center;
+        padding: 2rem;
+        transition: 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        display: flex; /* Override display none to use right offset */
     }
 
     .nav-links.show {
-        display: flex;
+        right: 0;
     }
 
     .nav-links a {
-        color: var(--dark);
+        color: var(--white);
         padding: 15px 20px;
     }
 
@@ -897,7 +905,12 @@ textarea {
     }
 
     .hero-btns {
-        gap: 10px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero-btns .btn {
+        width: 100%;
     }
 
     .btn {
@@ -923,7 +936,8 @@ textarea {
 
     .room-footer {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+        align-items: flex-start;
     }
 
     .room-footer .btn {

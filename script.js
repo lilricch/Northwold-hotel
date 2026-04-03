@@ -2,6 +2,7 @@
 const navbar = document.getElementById('navbar');
 const navLinks = document.getElementById('navLinks');
 const mobileMenuBtn = document.getElementById('mobile-menu');
+const mobileMenuIcon = mobileMenuBtn ? mobileMenuBtn.querySelector('i') : null;
 
 // Sticky header on scroll
 window.addEventListener('scroll', () => {
@@ -10,43 +11,38 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('sticky');
     }
-
-    // Scroll reveal animations
-    const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach(el => {
-        const windowHeight = window.innerHeight;
-        const revealTop = el.getBoundingClientRect().top;
-        if (revealTop < windowHeight - 100) {
-            el.classList.add('active');
-        }
-    });
 });
 
-// Mobile menu toggle
+// Efficient Scroll reveal using IntersectionObserver
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Mobile menu toggle with body scroll lock
 mobileMenuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
+    const isShowing = navLinks.classList.toggle('show');
+    document.body.style.overflow = isShowing ? 'hidden' : 'auto';
+    if (mobileMenuIcon) {
+        mobileMenuIcon.classList.toggle('fa-bars');
+        mobileMenuIcon.classList.toggle('fa-times');
+    }
 });
 
 // Close mobile menu when link is clicked
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         navLinks.classList.remove('show');
-    });
-});
-
-// Smooth scroll for nav links
-document.querySelectorAll('.nav-links a, .hero-btns a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#')) {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+        document.body.style.overflow = 'auto';
+        if (mobileMenuIcon) {
+            mobileMenuIcon.classList.add('fa-bars');
+            mobileMenuIcon.classList.remove('fa-times');
         }
     });
 });
@@ -160,18 +156,6 @@ document.querySelectorAll('.gallery-grid img').forEach(img => {
 });
 
 // ==================== Animations ====================
-// Initial reveal animation on page load
-window.addEventListener('load', () => {
-    const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach((el, index) => {
-        setTimeout(() => {
-            if (el.getBoundingClientRect().top < window.innerHeight) {
-                el.classList.add('active');
-            }
-        }, index * 100);
-    });
-});
-
 // ==================== Utility Functions ====================
 // Prevent form submission for demo
 function handleFormSubmit(e) {
@@ -179,14 +163,15 @@ function handleFormSubmit(e) {
     return false;
 }
 
-// Add smooth scrolling to all anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Consolidated smooth scrolling for all anchor links
+document.querySelectorAll('a[href^="#"], .hero-btns a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (href !== '#' && document.querySelector(href)) {
             e.preventDefault();
             document.querySelector(href).scrollIntoView({
-                behavior: 'smooth'
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });
