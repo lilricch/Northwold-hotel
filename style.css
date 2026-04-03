@@ -857,6 +857,14 @@ textarea {
         grid-template-columns: 1fr;
         gap: 40px;
     }
+    
+    .contact-form {
+        text-align: center;
+    }
+
+    .contact-details {
+        text-align: center;
+    }
 
     .form-row {
         grid-template-columns: 1fr;
@@ -865,6 +873,14 @@ textarea {
     .modal-content {
         padding: 30px;
         width: 95%;
+    }
+    
+    .contact-info-item {
+        justify-content: center;
+    }
+
+    .socials {
+        justify-content: center;
     }
 
     .lightbox-close {
@@ -977,6 +993,10 @@ textarea {
     .contact-info-item {
         flex-direction: column;
         gap: 10px;
+        /* Ensure content within the item is centered when stacked */
+        align-items: center; 
+        text-align: center;
+        justify-content: center; /* Redundant if align-items is used for flex-direction: column */
     }
 
     .modal-content {
