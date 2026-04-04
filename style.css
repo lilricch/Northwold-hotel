@@ -762,27 +762,35 @@ textarea {
 
 @media (max-width: 768px) {
     .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        height: 100vh;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: auto;
         background: #1a1a1a;
         flex-direction: column;
-        justify-content: center;
-        padding: 2rem;
+        padding: 20px 0;
         transition: 0.3s ease;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
-        display: flex; /* Override display none to use right offset */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        display: flex;
     }
 
     .nav-links.show {
-        right: 0;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
 
     .nav-links a {
         color: var(--white);
         padding: 15px 20px;
+    }
+
+    #navbar.sticky .nav-links a {
+        color: var(--white);
     }
 
     .nav-links a::after {
